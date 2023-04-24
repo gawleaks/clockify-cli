@@ -26,5 +26,6 @@ fi
 echo "Installing wrapper..."
 
 cp -f "$PWD/run.sh" "${INSTALL_DIR}/clockify/clockify-cli"
+chmod +x "${INSTALL_DIR}/clockify/clockify-cli"
 
 echo "Done! You can try running `clockify-cli --help` now."

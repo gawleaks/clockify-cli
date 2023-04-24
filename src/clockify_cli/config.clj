@@ -5,7 +5,7 @@
   (:gen-class))
 
 
-(def default-dir (str (System/getProperty "user.home") "/.clockify"))
+(def default-dir ".clockify")
 (def default-config-file-name (str default-dir "/config"))
 
 (defn default-config-file-path [file-name]

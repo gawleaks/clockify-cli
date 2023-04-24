@@ -1,4 +1,6 @@
-/target
+/target/default*
+/target/uberjar/*classes*
+/target/uberjar/stale
 /classes
 /checkouts
 profiles.clj
