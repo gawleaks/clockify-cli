@@ -20,5 +20,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        name: target/uberjar/clockify-cli-standalone.jar  
+        name: /home/runner/work/clockify-cli/clockify-cli/target/uberjar/clockify-cli-standalone.jar
   
