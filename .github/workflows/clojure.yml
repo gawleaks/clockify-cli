@@ -17,3 +17,8 @@ jobs:
       run: lein deps
     - name: Build uberjar
       run: lein uberjar
+    - name: Upload uberjar
+      uses: actions/upload-artifact@v3
+      with:
+        name: clockify-cli-standalone.jar
+        path: target/uberjar/clockify-cli-standalone.jar
