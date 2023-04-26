@@ -16,16 +16,16 @@ echo "Installing clockify-cli..."
 
 if [ -f "$LOCAL_JAR_FILE" ]; then
 	echo "Local uberjar exists, skipping pull from remote."
-	install "$LOCAL_JAR_FILE" "$INSTALL_DIR"
 else
 	echo "$LOCAL_JAR_FILE does not exist, pulling latest release from Github."
-	#curl -L https://github.com/platogo/atoss-cli/releases/latest/download/atoss-cli-standalone.jar >atoss-cli-standalone.jar
-	#install clockify-cli-standalone.jar $INSTALL_DIR
+	curl -L https://github.com/gawliks/clockify-cli/releases/latest/download/clockify-cli-standalone.jar > $LOCAL_JAR_FILE
 fi
+install "$LOCAL_JAR_FILE" "$INSTALL_DIR"
 
-echo "Installing wrapper..."
+echo "Installing script..."
 
-cp -f "$PWD/run.sh" "${INSTALL_DIR}/clockify/clockify-cli"
-chmod +x "${INSTALL_DIR}/clockify/clockify-cli"
+mkdir -p ${INSTALL_DIR}
+cp -f "$PWD/run.sh" "${INSTALL_DIR}/clockify-cli"
+chmod +x "${INSTALL_DIR}/clockify-cli"
 
-echo "Done! You can try running `clockify-cli --help` now."
+echo "Done! You can add ${INSTALL_DIR}: (export PATH=\$PATH:$INSTALL_DIR) to your path and run clockify-cli."

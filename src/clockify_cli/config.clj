@@ -1,7 +1,6 @@
 (ns clockify-cli.config
   (:require [clojure.java.io :as io]
-            [clojure.edn :as edn])
-  (:import [java.io PushbackReader])
+            [clojure.term.colors :as colors])
   (:gen-class))
 
 
@@ -15,5 +14,21 @@
   ([]
    (load-config (default-config-file-path default-config-file-name)))
   ([config-file]
-   (with-open [rdr (io/reader config-file)]
-     (edn/read (PushbackReader. rdr)))))
+   (try (read-string (slurp config-file))
+        (catch Exception e
+          (println "Error while reading config file: " (.getMessage e))
+          (System/exit 1)))))
+
+(defn write-config
+  ([config]
+   (write-config config (default-config-file-path default-config-file-name)))
+  ([config config-file]
+   (spit config-file (pr-str config))))
+
+(defn init-config
+  ([]
+   (init-config (default-config-file-path default-config-file-name)))
+  ([config-file]
+   (when-not (.exists (io/file config-file))
+     (write-config (load-config "config.example") config-file))
+   (println (colors/green "Config file initialized:") config-file)))

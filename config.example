@@ -1,5 +1,5 @@
 {:clockify-api-key "YOUR_API_KEY_HERE"
- :workspace "Polar Night Software workspace"
+ :workspace "My workspace"
  :project "Project you are working on"
  :start "09:00"
  :end "17:00"

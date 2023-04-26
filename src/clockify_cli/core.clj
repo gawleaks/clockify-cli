@@ -4,7 +4,8 @@
    [clockify-cli.config :as config]
    [clojure.tools.cli :refer [parse-opts]]
    [clojure.string :as strings]
-   [clojure.term.colors :as colors])
+   [clojure.term.colors :as colors]
+   [clojure.pprint :refer [pprint]])
   (:gen-class))
 
 (def cli-options
@@ -20,20 +21,34 @@
   (println "\nGeneral options:\n")
   (println (strings/join " " (last cli-options)))
   (println "\nCommmands:\n")
-  (println "- time-entry [description]: Add time entry with provided description (or default one from config file)")
-  (println "Options:")
-  (println (strings/join (map #(str (strings/join " " %) "\n") (butlast cli-options))))
-  (println "If no options are given, the default [workspace, project, start, end, day] are used")
-  (println "If no description is given, the default description (Working on [project]) is used")
+  (println "- time-entry [description]: Add time entry with provided description (or default one from config file)"
+           "\n  Options:"
+           (strings/join (map #(str "\n    " (strings/join " " %)) (butlast cli-options)))
+           "\n  If no options are given, the default [workspace, project, start, end, day] are used"
+           "\n  If no description is given, the default description (Working on [project]) is used")
   (println "\n- workspaces: List all workspaces")
-  (println "\n- projects [workspace]: List all projects in provided workspace (or default one from config file)" "\n"))
+  (println "\n- projects [workspace]: List all projects in provided workspace (or default one from config file)")
+  (println "\n- config [subcommand] [arguments]: Play with config file"
+           "\n  - show: Show config file"
+           "\n  - set [key] [value]: Set value of key in config file"
+           "\n  - init: Initialize config file with example values")
+  (println "\n- help: Show this help" "\n"))
 
 (defn trace [x]
   (println x)
   x)
 
+(defn manage-config [opts]
+  (let [subcommand (second (get opts :arguments))
+        arguments (nthnext (get opts :arguments) 2)]
+    (cond
+      (= subcommand "show") (pprint (config/load-config))
+      (= subcommand "set") (config/write-config (assoc (config/load-config) (keyword (first arguments)) (second arguments)))
+      (= subcommand "init") (config/init-config)
+      :else (pprint (config/load-config)))))
+
 (defn list-workspaces []
-  (println "Workspaces:")
+  (println "Your Workspaces:")
   (doseq [workspace (api/get-workspaces)]
     (println (str "- " (colors/on-grey (get workspace "name"))))))
 
@@ -58,22 +73,23 @@
         day (get-in opts [:options :day] (:day config))]
     (println "Adding time entry: " (colors/bold description) "to project" (colors/bold project) "in workspace" (colors/bold workspace))
     (println "Start:" (colors/bold start) " End:" (colors/bold end) " Day:" (colors/bold day))
-    (api/add-time-entry {:workspace workspace :project project :description description :start start :end end :day day})))
+    (api/add-time-entry {:workspace workspace :project project :description description :start start :end end :day day})
+    (println (colors/green "Time entry added"))))
 
-(defn parse-command [opts config]
+(defn parse-command [opts]
   (case (first (get opts :arguments))
-    "time-entry" (add-time-entry opts config)
+    "time-entry" (add-time-entry opts (config/load-config))
     "workspaces" (list-workspaces)
-    "projects" (list-projects opts config)
+    "projects" (list-projects opts (config/load-config))
+    "config" (manage-config opts)
     "help" (print-help)
     (print-help)))
 
 (defn -main
   [& args]
-  (let [config (config/load-config)
-        opts (parse-opts args cli-options)]
+  (let [opts (parse-opts args cli-options)]
     (if (get-in opts [:options :help])
       (print-help)
-      (parse-command opts config))))
+      (parse-command opts))))
 
 
