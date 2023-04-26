@@ -53,6 +53,13 @@ workspaces: List all workspaces
 
 projects [workspace]: List all projects in provided workspace (or default one from config file)
 
+- config [subcommand] [arguments]: Play with config file
+  - show: Show config file
+  - set [key] [value]: Set value of key in config file
+  - init: Initialize config file with example values
+
+- help: Show this help
+
 ```
 
 ## Examples
