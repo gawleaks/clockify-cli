@@ -2,7 +2,7 @@
 
 Command line tool that interacts with [Clockify](https://clockify.me) API.
 
-** Table of Contents**
+**Table of Contents**
 
 - [clockify-cli](#clockify-cli)
   - [Installation](#installation)
