@@ -8,7 +8,8 @@
                  [org.clojure/data.json "1.0.0"]
                  [org.clojure/tools.cli "1.0.194"]
                  [clojure-term-colors "0.1.0"]
-                 [clj-time "0.15.2"]]
+                 [clj-time "0.15.2"]
+                 [clojure.java-time "1.4.2"]]
   :main ^:skip-aot clockify-cli.core
   :target-path "target/%s"
   :jar-name "clockify-cli.jar"

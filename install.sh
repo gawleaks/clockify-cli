@@ -20,11 +20,13 @@ else
 	echo "$LOCAL_JAR_FILE does not exist, pulling latest release from Github."
 	curl -L https://github.com/gawliks/clockify-cli/releases/latest/download/clockify-cli-standalone.jar > $LOCAL_JAR_FILE
 fi
-install "$LOCAL_JAR_FILE" "$INSTALL_DIR"
+
+
 
 echo "Installing script..."
 
 mkdir -p ${INSTALL_DIR}
+install "$LOCAL_JAR_FILE" "$INSTALL_DIR/clockify-cli-standalone.jar"
 cp -f "$PWD/run.sh" "${INSTALL_DIR}/clockify-cli"
 chmod +x "${INSTALL_DIR}/clockify-cli"
 

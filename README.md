@@ -53,6 +53,8 @@ workspaces: List all workspaces
 
 projects [workspace]: List all projects in provided workspace (or default one from config file)
 
+report [year] [month] [repositories] Generate a report for the given month and provided repositories
+
 - config [subcommand] [arguments]: Play with config file
   - show: Show config file
   - set [key] [value]: Set value of key in config file
@@ -96,7 +98,9 @@ The rest of the config entries are optional and are used as defaults for `clocki
  :project "Project you are working on"
  :start "09:00"
  :end "17:00"
- :day "today"}
+ :day "today"
+ :github-owner "my-organization"
+ :github-token "github_xxx_1234"}
 ```
 
 ### Other examples:
