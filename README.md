@@ -78,6 +78,10 @@ listing projects in workspace:
 
 `clockify-cli projects "My workspace"`
 
+generate day-by-day work report for Dec 2024 in clockify-cli repo:
+
+`clockify-cli report 2024 12 clockify-cli` 
+
 ## Configuration
 
 In order to have `clockify-cli` working one have to setup a simple configuration that is stored in `~/.clockify/config` file.
